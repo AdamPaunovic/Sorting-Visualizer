@@ -1,12 +1,15 @@
 :root {
     --main-background: #000;
     --main-text: #fff;
-    --generate-btn-color: lawngreen;
+    --generate-btn-border: hotpink;
+    --sort-btn-border: #FFFF00;
     --slider-color: lawngreen;
-    --algorighmBtn-background: transparent;
+    --algorighmBtn-background: #899499;
     --algorithmBtn-text: #000;
-    --algorithmBtn-border: #1A1A1A;
-    --selected: #4EB300;
+    --algorithmBtn-border: #595959;
+    --algorithmBtn-hover: #B2BEB5;
+    --selected-background: lawngreen;
+    --selected-border: #228B22;
 }
 
 .header {
@@ -22,14 +25,31 @@
     z-index: 1000;
 }
 
+.button-container {
+    display: flex;
+    flex-direction: column;
+}
+
+
 #generateArrBtn {
-    padding: 20px 20px;
-    font-size: 1.2rem;
+    padding: 10px 15px;
+    font-size: 1rem;
     background-color: transparent;
-    border: 5px solid var(--generate-btn-color);
+    border: 5px solid var(--generate-btn-border);
+    color: var(--main-text);
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+#sortBtn {
+    padding: 10px 15px;
+    font-size: 1rem;
+    background-color: transparent;
+    border: 5px solid var(--sort-btn-border);
     color: var(--main-text);
     cursor: pointer;
 }
+
 
 .array-inputs {
     display: flex;
@@ -96,23 +116,23 @@ h1 {
 
 .algorithmBtn {
     appearance: none;
-    background-color: transparent;
-    border: 2px solid var(--algorithmBtn-border);
+    background-color: var(--algorighmBtn-background);
+    border: 3px solid var(--algorithmBtn-border);
+    color: var(--algorithmBtn-text);
     border-radius: 15px;
     width: 100px;
     padding: 10px;
     box-sizing: border-box;
-    color: #fff;
     cursor: pointer;
     display: inline-block;
-    font-size: 16px;
+    font-size: 1rem;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 600;
     transition: all 300ms cubic-bezier(.25, 1, .30, 1);
 }
 
 .algorithmBtn:hover {
-    background-color: var(--algorithmBtn-border);
+    background-color: var(--algorithmBtn-hover);
     transform: translateY(-2px);
   }
   
@@ -121,5 +141,6 @@ h1 {
   }
 
 .algorithmBtn.selected {
-    background-color: var(--selected); /* Highlight color for the selected algorithm */
+    background-color: var(--selected-background); 
+    border-color: var(--selected-border);
 }

@@ -9,12 +9,17 @@ function Header({
     onSpeedChange, 
     onAlgorithmChange, 
     onGenerateNewArray, 
+    onSortArray,
     algorithms
 }) {
     return (
         <header className="header">
 
-            <button id="generateArrBtn" onClick={onGenerateNewArray}>Generate New Array</button>
+            <div className="button-container">
+                <button id="generateArrBtn" onClick={onGenerateNewArray}>Generate New Array</button>
+                <button id="sortBtn" onClick={onSortArray}>Sort!</button>
+            </div>
+            
 
             {/* Array Controls */}
             <div className="array-inputs">

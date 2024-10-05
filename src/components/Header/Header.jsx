@@ -1,7 +1,7 @@
 import React from "react";
 import './Header.css'
 
-function Header({
+const Header = ({
     arraySize, 
     speed, 
     selectedAlgorithm, 
@@ -11,7 +11,7 @@ function Header({
     onGenerateNewArray, 
     onSortArray,
     algorithms
-}) {
+}) => {
     return (
         <header className="header">
 

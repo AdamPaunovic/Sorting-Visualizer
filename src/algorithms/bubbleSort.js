@@ -14,8 +14,6 @@ export function bubbleSort(array) {
 
                 // Push swap animation
                 [auxArray[j], auxArray[j + 1]] = [auxArray[j + 1], auxArray[j]];
-
-                swapped = true;
             } else {
                 // If no swap, push a revert animation to show normal color
                 animations.push([j, j + 1, "revert"]);

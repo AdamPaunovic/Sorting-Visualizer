@@ -30,7 +30,7 @@ const Header = ({
                     id="arrSizeSlider" 
                     type="range" 
                     min={20} 
-                    max={300} 
+                    max={150} 
                     step={1} 
                     value={arraySize}
                     onChange={(e) => onArraySizeChange(Number(e.target.value))}

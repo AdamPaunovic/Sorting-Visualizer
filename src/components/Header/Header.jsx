@@ -10,7 +10,9 @@ const Header = ({
     onAlgorithmChange, 
     onGenerateNewArray, 
     onSortArray,
-    algorithms
+    algorithms,
+    maxArraySize,
+    minArraySize
 }) => {
     return (
         <header className="header">
@@ -29,8 +31,8 @@ const Header = ({
                     className="slider"
                     id="arrSizeSlider" 
                     type="range" 
-                    min={20} 
-                    max={150} 
+                    min={minArraySize} 
+                    max={maxArraySize} 
                     step={1} 
                     value={arraySize}
                     onChange={(e) => onArraySizeChange(Number(e.target.value))}

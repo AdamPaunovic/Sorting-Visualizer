@@ -12,14 +12,15 @@ const Header = ({
     onSortArray,
     algorithms,
     maxArraySize,
-    minArraySize
+    minArraySize,
+    isDisabled
 }) => {
     return (
         <header className="header">
 
             <div className="button-container">
-                <button id="generateArrBtn" onClick={onGenerateNewArray}>Generate New Array</button>
-                <button id="sortBtn" onClick={onSortArray}>Sort!</button>
+                <button id="generateArrBtn" disabled={isDisabled} onClick={onGenerateNewArray}>Generate New Array</button>
+                <button id="sortBtn" disabled={isDisabled} onClick={onSortArray}>Sort!</button>
             </div>
             
 
@@ -36,6 +37,7 @@ const Header = ({
                     step={1} 
                     value={arraySize}
                     onChange={(e) => onArraySizeChange(Number(e.target.value))}
+                    disabled={isDisabled}
                 />
 
                 {/* Speed Slider */}
@@ -49,6 +51,7 @@ const Header = ({
                     step={1} 
                     value={speed}
                     onChange={(e) => onSpeedChange(Number(e.target.value))} 
+                    disabled={isDisabled}
                 />
             </div>
 
@@ -61,6 +64,7 @@ const Header = ({
                         key={algorithm}
                         className={`algorithmBtn ${selectedAlgorithm === algorithm ? 'selected' : ''}`}
                         onClick={() => onAlgorithmChange(algorithm)}
+                        disabled={isDisabled}
                     >
                         {algorithm}
                     </button>

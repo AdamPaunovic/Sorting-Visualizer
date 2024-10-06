@@ -1,7 +1,7 @@
 import React from 'react';
 import './ArrayDisplay.css';
 
-const ArrayDisplay = ({ array }) => {
+const ArrayDisplay = ({ array, barColors }) => {
 
     const margin_size = 0.2;
 
@@ -15,7 +15,8 @@ const ArrayDisplay = ({ array }) => {
                 { 
                     margin: `0% ${margin_size}%`,
                     width: `${100/array.length - (2 * margin_size)}%`,
-                    height: `${value}%`
+                    height: `${value}%`,
+                    backgroundColor: barColors[index]
                 }
             } 
           />

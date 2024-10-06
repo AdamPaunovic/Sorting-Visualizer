@@ -13,6 +13,8 @@ function App() {
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('Bubble');
   const [array, setArray] = useState([]);
   const [sortSteps, setSortSteps] = useState([]);
+  const [isSorting, setIsSorting] = useState(false);
+  const [isDisabled, setDisableInput] = useState(false);
 
   const algorithms = ['Bubble', 'Insertion', 'Selection', 'Merge', 'Quick'];
 
@@ -31,7 +33,6 @@ function App() {
   const generateNewArray = useCallback(() => {
     const newArray = Array.from({ length: arraySize }, () => 
       Math.floor(Math.random() * 0.5 * (maxArraySize - minArraySize) ) + 10);
-
     setArray(newArray);
   }, [arraySize] );
 
@@ -39,9 +40,7 @@ function App() {
     generateNewArray(); 
   }, [arraySize, generateNewArray]); 
 
- 
-
-  const sortArray = () => {
+  const handleSort = () => {
     let steps = [];
 
     // Determine which sorting algorithm to use
@@ -66,7 +65,15 @@ function App() {
     }
 
     setSortSteps(steps);
+    setDisableInput(true);
+    setIsSorting(true);
   };
+
+  const handleSortingComplete = () => {
+    setDisableInput(false);
+    setSortSteps([]);
+  };
+
 
   return (
     <>
@@ -78,15 +85,18 @@ function App() {
         onSpeedChange={handleSpeedChange}
         onAlgorithmChange={handleAlgorithmChange}
         onGenerateNewArray={generateNewArray}
-        onSortArray={sortArray}
+        onSortArray={handleSort}
         algorithms={algorithms}
         maxArraySize={maxArraySize}
         minArraySize={minArraySize}
+        isDisabled={isDisabled}
       />
       <SortingVisualizer 
         array={array}
         speed={speed}
         sortSteps={sortSteps}
+        isSorting={isSorting}
+        onSortingComplete={handleSortingComplete}
       />
     </>
   );

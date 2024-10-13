@@ -10,10 +10,10 @@ export function bubbleSort(array) {
             if (auxArray[j] > auxArray[j + 1]) {
 
                 // Swap step
-                animations.push([j, j + 1, "swap"]);
+                [auxArray[j], auxArray[j + 1]] = [auxArray[j + 1], auxArray[j]];
 
                 // Push swap animation
-                [auxArray[j], auxArray[j + 1]] = [auxArray[j + 1], auxArray[j]];
+                animations.push([j, j + 1, "swap"]);
             } 
             // If no swap, push a revert animation to show normal color
             animations.push([j, j + 1, "revert"]);

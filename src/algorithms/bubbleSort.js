@@ -24,5 +24,5 @@ export function bubbleSort(array) {
     // Mark first item as final
     animations.push([0, auxArray[0], "final"]);
 
-    return animations;
+    return [animations, auxArray];
 }

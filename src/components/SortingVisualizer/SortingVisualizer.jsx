@@ -5,7 +5,7 @@ import './SortingVisualizer.css';
 
 const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComplete }) => {
 
-    const [barColors, setBarColors] = useState(Array(array.length).fill('turquoise')); // Initialize all bars with the default color
+    const [barColors, setBarColors] = useState([]); 
 
     const calcDelayTime = () => {
         let scaledSpeed;
@@ -50,8 +50,8 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                         newBarColors[barTwoIdx] = "red";
                     } 
                     else if (action === "revert") {
-                        newBarColors[barOneIdx] = "turquoise";
-                        newBarColors[barTwoIdx] = "turquoise";
+                        newBarColors[barOneIdx] = "lawngreen";
+                        newBarColors[barTwoIdx] = "lawngreen";
                     } 
                     else if (action === "final") {
                         newBarColors[barOneIdx] = "green";
@@ -85,7 +85,7 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
     }, [isSorting, sortSteps, animateSorting]);
 
     useEffect(() => {
-        setBarColors(Array(array.length).fill('turquoise'));
+        setBarColors(Array(array.length).fill('lawngreen'));
     }, [array]);
 
     return (

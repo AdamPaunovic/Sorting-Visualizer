@@ -3,6 +3,8 @@
     --main-text: #fff;
     --generate-btn-border: hotpink;
     --sort-btn-border: #FFFF00;
+    --reset-btn-border: #0047AB;
+    --skip-btn-border: #0047AB;
     --slider-color: lawngreen;
     --algorighmBtn-background: #899499;
     --algorithmBtn-text: #000;
@@ -33,7 +35,7 @@
     top: 0;
 }
 
-.button-container {
+.btn-container {
     display: flex;
     flex-direction: column;
 }
@@ -58,6 +60,24 @@
     cursor: pointer;
 }
 
+#resetBtn {
+    padding: 10px 15px;
+    font-size: 1rem;
+    background-color: transparent;
+    border: 5px solid var(--reset-btn-border);
+    color: var(--main-text);
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+#skipBtn {
+    padding: 10px 15px;
+    font-size: 1rem;
+    background-color: transparent;
+    border: 5px solid var(--skip-btn-border);
+    color: var(--main-text);
+    cursor: pointer;
+}
 
 .array-inputs {
     display: flex;

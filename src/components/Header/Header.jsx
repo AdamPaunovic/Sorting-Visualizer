@@ -18,9 +18,14 @@ const Header = ({
     return (
         <header className="header">
 
-            <div className="button-container">
+            <div className="btn-container">
                 <button id="generateArrBtn" disabled={isDisabled} onClick={onGenerateNewArray}>Generate New Array</button>
                 <button id="sortBtn" disabled={isDisabled} onClick={onSortArray}>Sort!</button>
+            </div>
+
+            <div className="btn-container">
+                <button id="resetBtn" disabled={!isDisabled}>Reset</button>
+                <button id="skipBtn" disabled={!isDisabled}>Skip</button>
             </div>
             
 

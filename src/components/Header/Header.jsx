@@ -10,10 +10,12 @@ const Header = ({
     onAlgorithmChange, 
     onGenerateNewArray, 
     onSortArray,
+    onResetArray,
     algorithms,
     maxArraySize,
     minArraySize,
-    isDisabled
+    isDisabled,
+    isSortingComplete
 }) => {
     return (
         <header className="header">
@@ -24,7 +26,7 @@ const Header = ({
             </div>
 
             <div className="btn-container">
-                <button id="resetBtn" disabled={!isDisabled}>Reset</button>
+                <button id="resetBtn" disabled={!isSortingComplete} onClick={onResetArray}>Reset</button>
                 <button id="skipBtn" disabled={!isDisabled}>Skip</button>
             </div>
             

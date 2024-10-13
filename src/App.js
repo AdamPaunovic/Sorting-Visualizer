@@ -12,9 +12,12 @@ function App() {
   const [speed, setSpeed] = useState(4);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState('Bubble');
   const [array, setArray] = useState([]);
+  const [sortedArray, setSortedArray] = useState([]);
+  const [originalArray, setOriginalArray] = useState([]);
   const [sortSteps, setSortSteps] = useState([]);
   const [isSorting, setIsSorting] = useState(false);
   const [isDisabled, setDisableInput] = useState(false);
+  const [isSortingComplete, setIsSortingComplete] = useState(false);
 
   const algorithms = ['Bubble', 'Insertion', 'Selection', 'Merge', 'Quick'];
 
@@ -31,9 +34,12 @@ function App() {
   };
 
   const generateNewArray = useCallback(() => {
+    setIsSortingComplete(false);
     const newArray = Array.from({ length: arraySize }, () => 
       Math.floor(Math.random() * 0.5 * (maxArraySize - minArraySize) ) + 10);
     setArray(newArray);
+    setSortedArray([]);
+    setOriginalArray(newArray);
   }, [arraySize] );
 
   useEffect(() => {
@@ -42,11 +48,12 @@ function App() {
 
   const handleSort = () => {
     let steps = [];
+    let sorted = [];
 
     // Determine which sorting algorithm to use
     switch(selectedAlgorithm) {
       case 'Bubble':
-        steps = bubbleSort(array);
+        [steps, sorted] = bubbleSort(array);
         break;
       case 'Insertion':
         // steps = insertionSort(array);
@@ -65,6 +72,7 @@ function App() {
     }
 
     setSortSteps(steps);
+    setSortedArray(sorted);
     setDisableInput(true);
     setIsSorting(true);
   };
@@ -72,6 +80,15 @@ function App() {
   const handleSortingComplete = () => {
     setDisableInput(false);
     setSortSteps([]);
+    setIsSorting(false);
+    setIsSortingComplete(true);
+    setArray(sortedArray);
+  };
+
+  const handleResetArray = () => {
+    setArray(originalArray);
+    setSortedArray([]);
+    setIsSortingComplete(false);
   };
 
 
@@ -86,13 +103,16 @@ function App() {
         onAlgorithmChange={handleAlgorithmChange}
         onGenerateNewArray={generateNewArray}
         onSortArray={handleSort}
+        onResetArray={handleResetArray}
         algorithms={algorithms}
         maxArraySize={maxArraySize}
         minArraySize={minArraySize}
         isDisabled={isDisabled}
+        isSortingComplete={isSortingComplete}
       />
       <SortingVisualizer 
         array={array}
+        // sortedArray={sortedArray}
         speed={speed}
         sortSteps={sortSteps}
         isSorting={isSorting}

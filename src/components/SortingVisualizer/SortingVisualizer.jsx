@@ -1,92 +1,99 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import ArrayDisplay from "../ArrayDisplay/ArrayDisplay";
 import InfoSection from "../InfoSection/InfoSection";
 import './SortingVisualizer.css';
 
-const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComplete }) => {
-
+const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComplete, isSortingComplete }) => {
     const [barColors, setBarColors] = useState([]); 
+    const [currentArray, setCurrentArray] = useState(array);  // Maintain current array state
+    const sortingRef = useRef(isSorting);
 
-    const calcDelayTime = () => {
-        let scaledSpeed;
-        
+    // Function to adjust animation speed based on the speed setting
+    const getSpeedFactor = () => {
         switch(speed) {
-            case 1:
-                scaledSpeed = 10;
-                break;
-            case 2: 
-                scaledSpeed = 100;
-                break;
-            case 3: 
-                scaledSpeed = 500;
-                break;
-            case 4:
-                scaledSpeed = 1000;
-                break;
-            case 5:
-                scaledSpeed = 2000;
-                break;
-            default:
-                break;
+            case 1: return 1;
+            case 2: return 2;
+            case 3: return 5;
+            case 4: return 10;
+            case 5: return 30;
+            default: return 5;
         }
-
-        return 10000/(Math.floor(array.length/10) * scaledSpeed);
     };
 
-    const delayTime = calcDelayTime();
+    const speedFactor = getSpeedFactor();
 
-    // Function to animate the sorting steps
+    useEffect(() => {
+        sortingRef.current = isSorting; 
+    }, [isSorting]);
+
+    // Animate the sorting steps using requestAnimationFrame
     const animateSorting = useCallback((steps) => {
-        for (let i = 0; i < steps.length; i++) {
-            const [barOneIdx, barTwoIdx, action] = steps[i];
-    
-            setTimeout(() => {
-                // Use functional updates for barColors
+        let i = 0;
+
+        function animateStep() {
+            if (i >= steps.length || !sortingRef.current) {
+                onSortingComplete();  
+                return;
+            }
+
+            for (let j = 0; j < speedFactor && i < steps.length; j++) {
+                const [barOneIdx, barTwoIdx, action] = steps[i];
+                
+                // Update bar colors based on action
                 setBarColors((prevBarColors) => {
                     const newBarColors = [...prevBarColors];
-    
                     if (action === "compare") {
                         newBarColors[barOneIdx] = "red";
                         newBarColors[barTwoIdx] = "red";
-                    } 
-                    else if (action === "revert") {
+                    } else if (action === "revert") {
                         newBarColors[barOneIdx] = "lawngreen";
                         newBarColors[barTwoIdx] = "lawngreen";
-                    } 
-                    else if (action === "final") {
+                    } else if (action === "final") {
                         newBarColors[barOneIdx] = "green";
                     }
-    
-                    return newBarColors;  // Return the updated colors
+                    return newBarColors;
                 });
-    
-                if (action === "swap") {
-                    const bar1 = document.getElementsByClassName("bar")[barOneIdx];
-                    const bar2 = document.getElementsByClassName("bar")[barTwoIdx];
-                    const bar1Height = bar1.style.height;
-                    const bar2Height = bar2.style.height;
-                    bar1.style.height = bar2Height;
-                    bar2.style.height = bar1Height;
-                }
-    
-                // Sorting is complete, notify parent component
-                if (i === steps.length - 1) {
-                    onSortingComplete();
-                }
-            }, i * delayTime);
-        }
-    }, [onSortingComplete, delayTime]);
-    
 
+                // Handle swap actions
+                if (action === "swap") {
+                    setCurrentArray((prevArray) => {
+                        const newArray = [...prevArray];
+                        // Swap the elements in the array
+                        const temp = newArray[barOneIdx];
+                        newArray[barOneIdx] = newArray[barTwoIdx];
+                        newArray[barTwoIdx] = temp;
+                        return newArray;  // Return new array state for re-render
+                    });
+                }
+
+                i++;  // Move to the next step
+            }
+            if (sortingRef.current) {
+                requestAnimationFrame(animateStep);  
+            }
+        }
+        if (sortingRef.current) {
+            requestAnimationFrame(animateStep);  
+        }
+    }, [onSortingComplete, speedFactor]);
+
+    // Trigger the animation when sorting starts
     useEffect(() => {
         if (isSorting && sortSteps.length > 0) {
             animateSorting(sortSteps);
         }
     }, [isSorting, sortSteps, animateSorting]);
 
+    // Initialize bar colors when the array changes
     useEffect(() => {
-        setBarColors(Array(array.length).fill('lawngreen'));
-    }, [array]);
+        setCurrentArray(array);
+        // Initialize the bar colors based on whether sorting is complete
+        if (isSortingComplete) {
+            setBarColors(Array(array.length).fill('green'));
+        } else {
+            setBarColors(Array(array.length).fill('lawngreen'));
+        }
+    }, [array, isSortingComplete]);
 
     return (
         <div className="sorting-visualizer">
@@ -94,7 +101,7 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                 <InfoSection />
             </div>
             <div className="array-container">
-                <ArrayDisplay array={array} barColors={barColors} />
+                <ArrayDisplay array={currentArray} barColors={barColors} />
             </div>
             <div className="info-section-2">
                 <InfoSection />

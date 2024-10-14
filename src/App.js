@@ -4,7 +4,6 @@ import SortingVisualizer from './components/SortingVisualizer/SortingVisualizer'
 import { bubbleSort } from './algorithms/bubbleSort';
 import './App.css';
 
-
 function App() {
   const minArraySize = 20;
   const maxArraySize = 150;
@@ -36,11 +35,11 @@ function App() {
   const generateNewArray = useCallback(() => {
     setIsSortingComplete(false);
     const newArray = Array.from({ length: arraySize }, () => 
-      Math.floor(Math.random() * 0.5 * (maxArraySize - minArraySize) ) + 10);
+      Math.floor(Math.random() * 0.5 * (maxArraySize - minArraySize)) + 10);
     setArray(newArray);
     setSortedArray([]);
     setOriginalArray(newArray);
-  }, [arraySize] );
+  }, [arraySize]);
 
   useEffect(() => {
     generateNewArray(); 
@@ -65,7 +64,7 @@ function App() {
         // steps = mergeSort(array);
         break;
       case 'Quick':
-        //steps = quickSort(array);
+        // steps = quickSort(array);
         break;
       default:
         break;
@@ -82,7 +81,7 @@ function App() {
     setSortSteps([]);
     setIsSorting(false);
     setIsSortingComplete(true);
-    setArray(sortedArray);
+    setArray(sortedArray); // Update array state here
   };
 
   const handleResetArray = () => {
@@ -104,6 +103,7 @@ function App() {
         onGenerateNewArray={generateNewArray}
         onSortArray={handleSort}
         onResetArray={handleResetArray}
+        onSkipSort={handleSortingComplete}
         algorithms={algorithms}
         maxArraySize={maxArraySize}
         minArraySize={minArraySize}
@@ -112,10 +112,10 @@ function App() {
       />
       <SortingVisualizer 
         array={array}
-        // sortedArray={sortedArray}
         speed={speed}
         sortSteps={sortSteps}
         isSorting={isSorting}
+        isSortingComplete={isSortingComplete}
         onSortingComplete={handleSortingComplete}
       />
     </>

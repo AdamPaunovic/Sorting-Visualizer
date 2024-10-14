@@ -11,6 +11,7 @@ const Header = ({
     onGenerateNewArray, 
     onSortArray,
     onResetArray,
+    onSkipSort,
     algorithms,
     maxArraySize,
     minArraySize,
@@ -27,7 +28,7 @@ const Header = ({
 
             <div className="btn-container">
                 <button id="resetBtn" disabled={!isSortingComplete} onClick={onResetArray}>Reset</button>
-                <button id="skipBtn" disabled={!isDisabled}>Skip</button>
+                <button id="skipBtn" disabled={!isDisabled} onClick={onSkipSort}>Skip</button>
             </div>
             
 

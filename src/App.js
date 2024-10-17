@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Header from './components/Header/Header';
 import SortingVisualizer from './components/SortingVisualizer/SortingVisualizer';
 import { bubbleSort } from './algorithms/bubbleSort';
+import { insertionSort } from './algorithms/insertionSort';
 import './App.css';
 
 function App() {
@@ -55,7 +56,7 @@ function App() {
         [steps, sorted] = bubbleSort(array);
         break;
       case 'Insertion':
-        // steps = insertionSort(array);
+        [steps, sorted] = insertionSort(array);
         break;
       case 'Selection':
         // steps = selectionSort(array);
@@ -74,7 +75,8 @@ function App() {
     setSortedArray(sorted);
     setDisableInput(true);
     setIsSorting(true);
-  };
+    setIsSortingComplete(false);
+    };
 
   const handleSortingComplete = () => {
     setDisableInput(false);

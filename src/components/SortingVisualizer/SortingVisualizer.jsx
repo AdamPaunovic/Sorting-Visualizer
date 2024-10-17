@@ -8,16 +8,20 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
     const [currentArray, setCurrentArray] = useState(array);  // Maintain current array state
     const sortingRef = useRef(isSorting);
 
-    // Function to adjust animation speed based on the speed setting
+    const getBaseSpeed = () => {
+        // Minimum baseSpeed for array size of 20
+        const minBaseSpeed = 4; 
+        // Maximum baseSpeed for array size of 150
+        const maxBaseSpeed = 525; 
+    
+        // Linear interpolation
+        return minBaseSpeed + (maxBaseSpeed - minBaseSpeed) * ((array.length - 20) / (150 - 20));
+    };
+    
     const getSpeedFactor = () => {
-        switch(speed) {
-            case 1: return 1;
-            case 2: return 2;
-            case 3: return 5;
-            case 4: return 10;
-            case 5: return 30;
-            default: return 5;
-        }
+        const baseSpeed = getBaseSpeed(array.length);
+        const speedFactor = baseSpeed / (5 * (6 - speed));
+        return speedFactor;
     };
 
     const speedFactor = getSpeedFactor();
@@ -29,12 +33,26 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
     // Animate the sorting steps using requestAnimationFrame
     const animateSorting = useCallback((steps) => {
         let i = 0;
+        let lastFrameTime = performance.now();
+        const delay = 1000 / (speedFactor * 10)
 
-        function animateStep() {
+        function animateStep(timestamp) {
+            // If all steps are done or sorting stopped, complete sorting
             if (i >= steps.length || !sortingRef.current) {
                 onSortingComplete();  
                 return;
             }
+
+            // Calculate the time elapsed since the last frame
+            const elapsedTime = timestamp - lastFrameTime;
+
+            // Only proceed if enough time has passed
+            if (elapsedTime < delay) { 
+                requestAnimationFrame(animateStep); // Request the next frame
+                return;
+            }
+
+            lastFrameTime = timestamp; // Update the last frame time
 
             for (let j = 0; j < speedFactor && i < steps.length; j++) {
                 const [barOneIdx, barTwoIdx, action] = steps[i];
@@ -42,14 +60,35 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                 // Update bar colors based on action
                 setBarColors((prevBarColors) => {
                     const newBarColors = [...prevBarColors];
-                    if (action === "compare") {
-                        newBarColors[barOneIdx] = "red";
-                        newBarColors[barTwoIdx] = "red";
-                    } else if (action === "revert") {
-                        newBarColors[barOneIdx] = "lawngreen";
-                        newBarColors[barTwoIdx] = "lawngreen";
-                    } else if (action === "final") {
-                        newBarColors[barOneIdx] = "green";
+
+                    switch (action) {
+                        case "compare":
+                            // Mark bars as being compared
+                            newBarColors[barOneIdx] = "red";
+                            newBarColors[barTwoIdx] = "red";
+                            break;
+                        case "revert":
+                            // Revert bar colors to default color
+                            newBarColors[barOneIdx] = "lawngreen";
+                            newBarColors[barTwoIdx] = "lawngreen";
+                            break;
+                        case "final":
+                            // Mark bars as final (sorted)
+                            newBarColors[barOneIdx] = "green";
+                            break;
+                        case "highlight":
+                            // Highlight bars for specific action (Ex. As a key for insertion sort)
+                            newBarColors[barOneIdx] = "orange";
+                            newBarColors[barTwoIdx] = "orange";
+                            break;
+                        case "swap":
+                            // Swap the colors of the bars
+                            let temp = newBarColors[barOneIdx];
+                            newBarColors[barOneIdx] = newBarColors[barTwoIdx];
+                            newBarColors[barTwoIdx] = temp;
+                            break;
+                        default:
+                            break;
                     }
                     return newBarColors;
                 });
@@ -64,13 +103,33 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                         newArray[barTwoIdx] = temp;
                         return newArray;  // Return new array state for re-render
                     });
+                } 
+                // Handle shift actions
+                else if (action === "shift") {
+                    setCurrentArray((prevArray) => {
+                        const newArray = [...prevArray];
+                        // Shift barOneIdx bar to barTwoIdx position
+                        newArray[barTwoIdx] = newArray[barOneIdx];
+                        return newArray;  // Return the new array state for re-render
+                    });
+                }
+                // Handle insert actions
+                else if (action === "insert") {
+                    setCurrentArray((prevArray) => {
+                        const newArray = [...prevArray];
+                        // Insert barOneIdx bar into barTwoIdx position
+                        newArray.splice(barTwoIdx, 0, newArray.splice(barOneIdx, 1)[0]);
+                        return newArray;  // Return the new array state for re-render
+                    });
                 }
 
                 i++;  // Move to the next step
             }
+            
             if (sortingRef.current) {
                 requestAnimationFrame(animateStep);  
             }
+
         }
         if (sortingRef.current) {
             requestAnimationFrame(animateStep);  

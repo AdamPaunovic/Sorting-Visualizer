@@ -5,7 +5,7 @@ export function bubbleSort(array) {
     for (let i = 0; i < auxArray.length - 1; i++) {
         for (let j = 0; j < auxArray.length - i - 1; j++) {
             // Comparison step
-            animations.push([j, j + 1, "highlight"]);
+            animations.push([j, j + 1, "highlight1"]);
 
             if (auxArray[j] > auxArray[j + 1]) {
 
@@ -19,7 +19,7 @@ export function bubbleSort(array) {
             animations.push([j, j + 1, "revert"]);
         }
         // Mark item in last position as final
-        animations.push([auxArray.length - i - 1, 0, "final"]);
+        animations.push([auxArray.length - i - 1, -1, "final"]);
     }
     // Mark first item as final
     animations.push([0, auxArray[0], "final"]);

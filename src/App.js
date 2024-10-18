@@ -3,6 +3,7 @@ import Header from './components/Header/Header';
 import SortingVisualizer from './components/SortingVisualizer/SortingVisualizer';
 import { bubbleSort } from './algorithms/bubbleSort';
 import { insertionSort } from './algorithms/insertionSort';
+import { selectionSort } from './algorithms/selectionSort';
 import './App.css';
 
 function App() {
@@ -59,7 +60,7 @@ function App() {
         [steps, sorted] = insertionSort(array);
         break;
       case 'Selection':
-        // steps = selectionSort(array);
+        [steps, sorted] = selectionSort(array);
         break;
       case 'Merge':
         // steps = mergeSort(array);
@@ -91,6 +92,10 @@ function App() {
     setSortedArray([]);
     setIsSortingComplete(false);
   };
+  
+  const handleSkipSort = () => {
+    setIsSorting(false);
+  };
 
 
   return (
@@ -105,7 +110,7 @@ function App() {
         onGenerateNewArray={generateNewArray}
         onSortArray={handleSort}
         onResetArray={handleResetArray}
-        onSkipSort={handleSortingComplete}
+        onSkipSort={handleSkipSort}
         algorithms={algorithms}
         maxArraySize={maxArraySize}
         minArraySize={minArraySize}

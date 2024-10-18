@@ -12,7 +12,7 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
         // Minimum baseSpeed for array size of 20
         const minBaseSpeed = 4; 
         // Maximum baseSpeed for array size of 150
-        const maxBaseSpeed = 175; 
+        const maxBaseSpeed = 100; 
     
         // Linear interpolation
         return minBaseSpeed + (maxBaseSpeed - minBaseSpeed) * ((array.length - 20) / (150 - 20));
@@ -66,11 +66,6 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                     const newBarColors = [...prevBarColors];
 
                     switch (action) {
-                        case "compare":
-                            // Mark bars as being compared
-                            newBarColors[barOneIdx] = "red";
-                            newBarColors[barTwoIdx] = "red";
-                            break;
                         case "revert":
                             // Revert bar colors to default color
                             newBarColors[barOneIdx] = "lawngreen";
@@ -79,11 +74,18 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                         case "final":
                             // Mark bars as final (sorted)
                             newBarColors[barOneIdx] = "green";
+                            if (barTwoIdx !== -1) {
+                                newBarColors[barTwoIdx] = "lawngreen";  // Reverts barTwoIdx for smoother animation
+                            }
                             break;
-                        case "highlight":
+                        case "highlight1":
                             // Highlight bars for specific action (Ex. As a key for insertion sort)
                             newBarColors[barOneIdx] = "red";
                             newBarColors[barTwoIdx] = "red";
+                            break;
+                        case "highlight2":
+                            newBarColors[barOneIdx] = "turquoise";
+                            newBarColors[barTwoIdx] = "turquoise";
                             break;
                         case "swap":
                             // Swap the colors of the bars

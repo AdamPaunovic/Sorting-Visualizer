@@ -6,6 +6,7 @@
     --reset-btn-border: #0047AB;
     --skip-btn-border: #0047AB;
     --slider-color: lawngreen;
+    --disabled-slider-color: green;
     --algorighmBtn-background: #899499;
     --algorithmBtn-text: #000;
     --algorithmBtn-border: #595959;
@@ -39,7 +40,6 @@
     display: flex;
     flex-direction: column;
 }
-
 
 #generateArrBtn {
     padding: 10px 15px;
@@ -104,7 +104,7 @@
     cursor: pointer;
 }
 
-/* targets chrome/safari*/
+/* targets chrome/safari */
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -167,16 +167,40 @@ h1 {
     transform: translateY(0);
   }
 
-.algorithmBtn.selected {
-    background-color: var(--selected-background); 
-    border-color: var(--selected-border);
-}
-
-button:disabled {
+.algorithmBtn:disabled {
     background-color: var(--disabled-background);
     border-color: var(--disabled-border);
     opacity: 0.7;
     pointer-events: none;
     transform: none;
+    box-shadow: none;
+}
+
+.algorithmBtn.selected {
+    background-color: var(--selected-background); 
+    border-color: var(--selected-border);
+}
+
+.slider:disabled {
+    border-color: var(--disabled-slider-color);
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* targets chrome/safari */
+.slider:disabled::-webkit-slider-thumb {
+    border-color: var(--disabled-slider-color);
+    pointer-events: none;
+}
+
+/* targets firefox */
+.slider::-moz-range-thumb {
+    border-color: var(--disabled-slider-color);
+    pointer-events: none;
+}
+
+.controlBtn:disabled {
+    opacity: 0.6;
+    pointer-events: none
 }
 

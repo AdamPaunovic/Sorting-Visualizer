@@ -22,13 +22,37 @@ const Header = ({
         <header className="header">
 
             <div className="btn-container">
-                <button id="generateArrBtn" disabled={isDisabled} onClick={onGenerateNewArray}>Generate New Array</button>
-                <button id="sortBtn" disabled={isDisabled} onClick={onSortArray}>Sort!</button>
+                <button 
+                    id="generateArrBtn" 
+                    className="controlBtn"
+                    disabled={isDisabled} 
+                    onClick={onGenerateNewArray}>
+                    Generate New Array
+                </button>
+                <button 
+                    id="sortBtn" 
+                    className="controlBtn"
+                    disabled={isDisabled} 
+                    onClick={onSortArray}>
+                    Sort!
+                </button>
             </div>
 
             <div className="btn-container">
-                <button id="resetBtn" disabled={!isSortingComplete} onClick={onResetArray}>Reset</button>
-                <button id="skipBtn" disabled={!isDisabled} onClick={onSkipSort}>Skip</button>
+                <button 
+                    id="resetBtn" 
+                    className="controlBtn" 
+                    disabled={!isSortingComplete} 
+                    onClick={onResetArray}>
+                    Reset
+                </button>
+                <button 
+                    id="skipBtn" 
+                    className="controlBtn" 
+                    disabled={!isDisabled} 
+                    onClick={onSkipSort}>
+                    Skip
+                </button>
             </div>
             
 

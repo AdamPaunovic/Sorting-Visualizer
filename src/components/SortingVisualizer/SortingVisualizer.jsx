@@ -82,8 +82,8 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                             break;
                         case "highlight":
                             // Highlight bars for specific action (Ex. As a key for insertion sort)
-                            newBarColors[barOneIdx] = "orange";
-                            newBarColors[barTwoIdx] = "orange";
+                            newBarColors[barOneIdx] = "red";
+                            newBarColors[barTwoIdx] = "red";
                             break;
                         case "swap":
                             // Swap the colors of the bars

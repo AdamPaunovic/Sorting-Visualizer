@@ -12,7 +12,7 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
         // Minimum baseSpeed for array size of 20
         const minBaseSpeed = 4; 
         // Maximum baseSpeed for array size of 150
-        const maxBaseSpeed = 525; 
+        const maxBaseSpeed = 175; 
     
         // Linear interpolation
         return minBaseSpeed + (maxBaseSpeed - minBaseSpeed) * ((array.length - 20) / (150 - 20));
@@ -34,7 +34,8 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
     const animateSorting = useCallback((steps) => {
         let i = 0;
         let lastFrameTime = performance.now();
-        const delay = 1000 / (speedFactor * 10)
+        let delay = 1000 / (speedFactor * 10)
+        const decayFactor = 0.995;
 
         function animateStep(timestamp) {
             // If all steps are done or sorting stopped, complete sorting
@@ -46,6 +47,7 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
             // Calculate the time elapsed since the last frame
             const elapsedTime = timestamp - lastFrameTime;
 
+
             // Only proceed if enough time has passed
             if (elapsedTime < delay) { 
                 requestAnimationFrame(animateStep); // Request the next frame
@@ -53,6 +55,8 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
             }
 
             lastFrameTime = timestamp; // Update the last frame time
+
+            delay *= decayFactor;  // Decrease delay gradually
 
             for (let j = 0; j < speedFactor && i < steps.length; j++) {
                 const [barOneIdx, barTwoIdx, action] = steps[i];

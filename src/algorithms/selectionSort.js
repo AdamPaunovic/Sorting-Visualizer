@@ -1,6 +1,6 @@
 export function selectionSort(array) {
     const animations = [];
-    const auxArray = array.slice();
+    const auxArray = array.slice();  // copy of input array
 
     const n = auxArray.length;
 

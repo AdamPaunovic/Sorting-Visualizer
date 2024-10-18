@@ -22,8 +22,6 @@ export function insertionSort(array) {
         auxArray[j + 1] = key;
 
         animations.push([j + 1, j + 1, "revert"]);
-        // Error occurs because the bar at position i is now the same as what was shifted, meaning what is placed is not seen.
-
     }
 
     return [animations, auxArray];

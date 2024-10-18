@@ -5,7 +5,7 @@ export function bubbleSort(array) {
     for (let i = 0; i < auxArray.length - 1; i++) {
         for (let j = 0; j < auxArray.length - i - 1; j++) {
             // Comparison step
-            animations.push([j, j + 1, "compare"]);
+            animations.push([j, j + 1, "highlight"]);
 
             if (auxArray[j] > auxArray[j + 1]) {
 

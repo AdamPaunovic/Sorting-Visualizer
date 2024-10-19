@@ -4,6 +4,7 @@ import SortingVisualizer from './components/SortingVisualizer/SortingVisualizer'
 import { bubbleSort } from './algorithms/bubbleSort';
 import { insertionSort } from './algorithms/insertionSort';
 import { selectionSort } from './algorithms/selectionSort';
+import { mergeSort } from './algorithms/mergeSort';
 import './App.css';
 
 function App() {
@@ -63,7 +64,7 @@ function App() {
         [steps, sorted] = selectionSort(array);
         break;
       case 'Merge':
-        // steps = mergeSort(array);
+        [steps, sorted] = mergeSort(array);
         break;
       case 'Quick':
         // steps = quickSort(array);

@@ -12,7 +12,7 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
         // Minimum baseSpeed for array size of 20
         const minBaseSpeed = 4; 
         // Maximum baseSpeed for array size of 150
-        const maxBaseSpeed = 100; 
+        const maxBaseSpeed = 25; 
     
         // Linear interpolation
         return minBaseSpeed + (maxBaseSpeed - minBaseSpeed) * ((array.length - 20) / (150 - 20));
@@ -59,17 +59,18 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
             delay *= decayFactor;  // Decrease delay gradually
 
             for (let j = 0; j < speedFactor && i < steps.length; j++) {
-                const [barOneIdx, barTwoIdx, action] = steps[i];
+                const [barOneIdx, barTwoIdx, action, colors] = steps[i];
                 
                 // Update bar colors based on action
                 setBarColors((prevBarColors) => {
                     const newBarColors = [...prevBarColors];
 
+                    let temp = newBarColors[barOneIdx]; 
                     switch (action) {
                         case "revert":
                             // Revert bar colors to default color
-                            newBarColors[barOneIdx] = "lawngreen";
-                            newBarColors[barTwoIdx] = "lawngreen";
+                            newBarColors[barOneIdx] = colors[0];
+                            newBarColors[barTwoIdx] = colors[0];
                             break;
                         case "final":
                             // Mark bars as final (sorted)
@@ -78,20 +79,23 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                                 newBarColors[barTwoIdx] = "lawngreen";  // Reverts barTwoIdx for smoother animation
                             }
                             break;
-                        case "highlight1":
+                        case "highlight":
                             // Highlight bars for specific action (Ex. As a key for insertion sort)
-                            newBarColors[barOneIdx] = "red";
-                            newBarColors[barTwoIdx] = "red";
+                            newBarColors[barOneIdx] = colors[0];
+                            newBarColors[barTwoIdx] = colors[1];
                             break;
-                        case "highlight2":
-                            newBarColors[barOneIdx] = "turquoise";
-                            newBarColors[barTwoIdx] = "turquoise";
+                        case "highlightRange":
+                            const mid = Math.floor((barOneIdx + barTwoIdx) / 2);
+                            newBarColors.fill(colors[0], barOneIdx, mid + 1);
+                            newBarColors.fill(colors[1], mid + 1, barTwoIdx + 1);
                             break;
                         case "swap":
                             // Swap the colors of the bars
-                            let temp = newBarColors[barOneIdx];
                             newBarColors[barOneIdx] = newBarColors[barTwoIdx];
                             newBarColors[barTwoIdx] = temp;
+                            break;
+                        case "insert":
+                            newBarColors.splice(barTwoIdx, 0, newBarColors.splice(barOneIdx, 1)[0]);
                             break;
                         default:
                             break;

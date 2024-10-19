@@ -33,8 +33,6 @@ function merge(auxArray, start, mid, end, animations) {
     let j = mid + 1;   // Pointer for the right half
     let k = start;     // Pointer for the main array
 
-    let animationIdx = i;  // index of i in the current animated array
-
     animations.push([start, end, "highlightRange", [half1, half2]]);  // Highlight two halves being merged
 
     animations.push([k, j, "highlight", [highlight1, highlight2]]);
@@ -55,7 +53,6 @@ function merge(auxArray, start, mid, end, animations) {
             }
             auxArray[k++] = tempArray[j++ - start];
         }
-        animationIdx++;
     }
 
     // If any elements are left in the left half, add them
@@ -65,7 +62,6 @@ function merge(auxArray, start, mid, end, animations) {
             animations.push([k, k + 1, "highlight", [half1, highlight1]]);
         }
         auxArray[k++] = tempArray[i++ - start];
-        animationIdx++;
     }
 
     // If any elements are left in the right half, add them

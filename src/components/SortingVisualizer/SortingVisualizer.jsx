@@ -69,8 +69,8 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                     switch (action) {
                         case "revert":
                             // Revert bar colors to default color
-                            newBarColors[barOneIdx] = colors[0];
-                            newBarColors[barTwoIdx] = colors[0];
+                            newBarColors[barOneIdx] = "lawngreen";
+                            newBarColors[barTwoIdx] = "lawngreen";
                             break;
                         case "final":
                             // Mark bars as final (sorted)
@@ -82,12 +82,17 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                         case "highlight":
                             // Highlight bars for specific action (Ex. As a key for insertion sort)
                             newBarColors[barOneIdx] = colors[0];
-                            newBarColors[barTwoIdx] = colors[1];
+                            if (barTwoIdx !== -1) {
+                                newBarColors[barTwoIdx] = colors[1];
+                            }
                             break;
                         case "highlightRange":
                             const mid = Math.floor((barOneIdx + barTwoIdx) / 2);
                             newBarColors.fill(colors[0], barOneIdx, mid + 1);
                             newBarColors.fill(colors[1], mid + 1, barTwoIdx + 1);
+                            break;
+                        case "revertRange":
+                            newBarColors.fill("lawngreen", barOneIdx, barTwoIdx + 1);
                             break;
                         case "swap":
                             // Swap the colors of the bars
@@ -95,7 +100,12 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                             newBarColors[barTwoIdx] = temp;
                             break;
                         case "insert":
+                            // Insert color at barOneIdx into barTwoIdx position
                             newBarColors.splice(barTwoIdx, 0, newBarColors.splice(barOneIdx, 1)[0]);
+                            newBarColors[barTwoIdx] = colors[0];
+                            if (colors.length === 2) {
+                                newBarColors[barOneIdx + 1] = colors[1];
+                            }
                             break;
                         default:
                             break;

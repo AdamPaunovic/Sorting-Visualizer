@@ -8,7 +8,7 @@ export function insertionSort(array) {
         let j = i - 1;
 
         // Highlight the current key being compared
-        animations.push([i, i, "highlight", ["red"]]);
+        animations.push([i, -1, "highlight", ["red"]]);
 
         while (j >= 0 && auxArray[j] > key) {
         
@@ -21,7 +21,7 @@ export function insertionSort(array) {
         }
         auxArray[j + 1] = key;
 
-        animations.push([j + 1, j + 1, "revert", ["lawngreen"]]);
+        animations.push([j + 1, j + 1, "revert", []]);
     }
 
     return [animations, auxArray];

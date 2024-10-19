@@ -16,7 +16,7 @@ export function bubbleSort(array) {
                 animations.push([j, j + 1, "swap"]);
             } 
             // If no swap, push a revert animation to show normal color
-            animations.push([j, j + 1, "revert", ["lawngreen"]]);
+            animations.push([j, j + 1, "revert", []]);
         }
         // Mark item in last position as final
         animations.push([auxArray.length - i - 1, -1, "final", []]);

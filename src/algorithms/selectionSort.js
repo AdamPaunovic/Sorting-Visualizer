@@ -8,7 +8,7 @@ export function selectionSort(array) {
 
         // Assume first element of unsorted portion is min
         let minIndex = i;
-        animations.push([minIndex, minIndex, "highlight", ["red", "red"]]);
+        animations.push([minIndex, -1, "highlight", ["red"]]);
         // Find index of min element in unsorted portion
         for (let j = i + 1; j < n; j++) {
             // Mark potential min with highlight2
@@ -18,14 +18,14 @@ export function selectionSort(array) {
             }
         }
 
-        animations.push([minIndex, minIndex, "highlight", ["turquoise", "turquoise"]]);
+        animations.push([minIndex, -1, "highlight", ["turquoise"]]);
         // Swap elements if new min element found
         if (minIndex !== i) {
             [auxArray[i], auxArray[minIndex]] = [auxArray[minIndex], auxArray[i]];
             animations.push([i, minIndex, "swap"]);
         }
 
-        animations.push([i, (minIndex !== i ? minIndex : -1), "final"]);  // Mark element at index i as final
+        animations.push([i, (minIndex !== i ? minIndex : -1), "final", []]);  // Mark element at index i as final
     }
 
     // console.log(auxArray);

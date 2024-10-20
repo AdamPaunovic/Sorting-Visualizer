@@ -21,11 +21,11 @@ function mergeSortHelper(auxArray, start, end, animations) {
 
 function merge(auxArray, start, mid, end, animations) {
 
-    // Colors used
-    let half1 = "#FFC8C9";
-    let half2 = "#ADD8E6";
+    // Colors used for animations
+    let half1 = "limegreen";
+    let half2 = "limegreen";
     let highlight1 = "#FF073A";
-    let highlight2 = "#009092";
+    let highlight2 = "#00FEFC";
 
     const tempArray = auxArray.slice(start, end + 1);  // Copy only the portion to be merged
 
@@ -71,5 +71,8 @@ function merge(auxArray, start, mid, end, animations) {
         }
         auxArray[k++] = tempArray[j++ - start];
     }
-    animations.push([start, end, "revertRange", []]);
+
+    if (end != auxArray.length - 1) {
+        animations.push([start, end, "revertRange", []]);
+    }
 }

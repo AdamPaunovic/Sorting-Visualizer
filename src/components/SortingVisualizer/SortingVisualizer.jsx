@@ -90,9 +90,18 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                             const mid = Math.floor((barOneIdx + barTwoIdx) / 2);
                             newBarColors.fill(colors[0], barOneIdx, mid + 1);
                             newBarColors.fill(colors[1], mid + 1, barTwoIdx + 1);
+                            // Set pivot for animating QuickSort
+                            if (colors.length === 3) {
+                                newBarColors[barTwoIdx] = colors[2];
+                            }
                             break;
                         case "revertRange":
                             newBarColors.fill("lawngreen", barOneIdx, barTwoIdx + 1);
+                            // Set index as final if passed in colors array
+                            if (colors.length === 1) {
+                                const pivotIdx = colors[0];
+                                newBarColors[pivotIdx] = "green";
+                            }
                             break;
                         case "swap":
                             // Swap the colors of the bars

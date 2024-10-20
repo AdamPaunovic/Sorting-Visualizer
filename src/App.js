@@ -5,6 +5,7 @@ import { bubbleSort } from './algorithms/bubbleSort';
 import { insertionSort } from './algorithms/insertionSort';
 import { selectionSort } from './algorithms/selectionSort';
 import { mergeSort } from './algorithms/mergeSort';
+import { quickSort } from './algorithms/quickSort';
 import './App.css';
 
 function App() {
@@ -67,7 +68,7 @@ function App() {
         [steps, sorted] = mergeSort(array);
         break;
       case 'Quick':
-        // steps = quickSort(array);
+        [steps, sorted] = quickSort(array);
         break;
       default:
         break;

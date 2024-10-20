@@ -72,7 +72,7 @@ function merge(auxArray, start, mid, end, animations) {
         auxArray[k++] = tempArray[j++ - start];
     }
 
-    if (end != auxArray.length - 1) {
+    if (end !== auxArray.length - 1) {
         animations.push([start, end, "revertRange", []]);
     }
 }

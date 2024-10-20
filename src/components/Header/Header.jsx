@@ -1,3 +1,30 @@
+// Header.jsx
+// 
+// Author: Adam Paunovic
+// Date: 2024-10-20
+//
+// Description: This component serves as the header for the sorting visualizer application. 
+//              It includes controls for generating a new array, sorting the array, 
+//              resetting the array, skipping the sort, and adjusting the array size and speed.
+//              It also allows users to select different sorting algorithms.
+// 
+// Props:
+// - arraySize: The current size of the array being visualized.
+// - speed: The current speed setting for the sorting animation.
+// - selectedAlgorithm: The algorithm currently selected for sorting.
+// - onArraySizeChange: Function to handle changes in array size.
+// - onSpeedChange: Function to handle changes in speed setting.
+// - onAlgorithmChange: Function to handle changes in the selected algorithm.
+// - onGenerateNewArray: Function to generate a new random array.
+// - onSortArray: Function to start the sorting process.
+// - onResetArray: Function to reset the array to its initial state.
+// - onSkipSort: Function to skip the current sorting process.
+// - algorithms: Array of available sorting algorithms.
+// - maxArraySize: Maximum allowed size for the array.
+// - minArraySize: Minimum allowed size for the array.
+// - isDisabled: Boolean indicating if controls should be disabled.
+// - isSortingComplete: Boolean indicating if the sorting process is complete.
+
 import React from "react";
 import './Header.css'
 

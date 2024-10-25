@@ -34,6 +34,7 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
     const sortingRef = useRef(isSorting);
     const audioContextRef = useRef(null);
     const currentArrayRef = useRef(array);
+    
 
     // Function to generate sound for each sorting step
     const playSound = (frequency) => {
@@ -100,7 +101,7 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
         let i = 0;
         let lastFrameTime = performance.now();
         let delay = 1000 / (speedFactor * 10)
-        const decayFactor = 0.998;
+        const decayFactor = 0.99;
 
         function animateStep(timestamp) {
             // If all steps are done or sorting stopped, complete sorting
@@ -133,7 +134,6 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                 // Update bar colors based on action
                 setBarColors((prevBarColors) => {
                     const newBarColors = [...prevBarColors];
-                    
                      
                     switch (action) {
                         case "revert":
@@ -220,9 +220,11 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
             }
 
         }
+
         if (sortingRef.current) {
             requestAnimationFrame(animateStep);  
         }
+
     }, [onSortingComplete, speedFactor]);
 
     // Trigger the animation when sorting starts.

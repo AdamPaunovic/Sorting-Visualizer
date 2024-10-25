@@ -18,6 +18,7 @@ export function insertionSort(array) {
 
     // Colors used for animation
     const highlight1 = "red";
+    const highlight2 = "turquoise"
 
     for (let i = 1; i < auxArray.length; i++) {
 
@@ -32,6 +33,8 @@ export function insertionSort(array) {
             // Shift step 
             auxArray[j + 1] = auxArray[j];
 
+            animations.push([j, -1, "highlight", [highlight2]]);
+
             // Shift animation
             animations.push([j, j + 1, "swap"]);
 
@@ -39,8 +42,10 @@ export function insertionSort(array) {
         }
         auxArray[j + 1] = key;
 
-        // Unhighlight element just processed
-        animations.push([j + 1, j + 1, "revert", []]);
+        // Unhighlight elements just processed if not last element
+        if (i !== auxArray.length - 1) {
+            animations.push([j + 1, i, "revertRange", []]);
+        }
     }
 
     return [animations, auxArray];

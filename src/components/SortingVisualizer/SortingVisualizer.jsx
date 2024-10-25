@@ -29,7 +29,7 @@ import ArrayDisplay from "../ArrayDisplay/ArrayDisplay";
 import InfoSection from "../InfoSection/InfoSection";
 import './SortingVisualizer.css';
 
-const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComplete, isSortingComplete }) => {
+const SortingVisualizer = ({ array, speedFactor, sortSteps, isSorting, onSortingComplete, isSortingComplete }) => {
     const [barColors, setBarColors] = useState([]); 
     const sortingRef = useRef(isSorting);
     const audioContextRef = useRef(null);
@@ -59,32 +59,6 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
         oscillator.stop(audioContextRef.current.currentTime + 0.1);  // Let the sound last slightly longer
     };
 
-    // Calculate the base speed for sorting animation based on the array size.
-    // The speed is determined through linear interpolation between a minimum 
-    // and maximum speed defined for an array size range (20 to 150).
-    // Returns the calculated base speed.
-    const getBaseSpeed = () => {
-        // Minimum baseSpeed for min array size (20)
-        const minBaseSpeed = 4; 
-        // Maximum baseSpeed for max array size (150)
-        const maxBaseSpeed = 15; 
-    
-        // Linear interpolation
-        return minBaseSpeed + (maxBaseSpeed - minBaseSpeed) * ((array.length - 20) / (150 - 20));
-    };
-    
-    // Calculate the speed factor for the sorting animation based on the user-defined speed.
-    // This factor adjusts the base speed determined by the size of the array 
-    // and the selected speed setting (1 to 5). 
-    // Returns the computed speed factor for animation timing.
-    const getSpeedFactor = () => {
-        const baseSpeed = getBaseSpeed(array.length);
-        const speedFactor = baseSpeed / (5 * (6 - speed));
-        return speedFactor;
-    };
-
-    const speedFactor = getSpeedFactor();  // determines the animation speed
-
     // This effect updates the `sortingRef` to reflect the current value 
     // of `isSorting`. 
     useEffect(() => {
@@ -100,7 +74,8 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
     const animateSorting = useCallback((steps) => {
         let i = 0;
         let lastFrameTime = performance.now();
-        let delay = 1000 / (speedFactor * 10)
+        let delay = 1000 / Math.min((speedFactor * 10), 9);
+        // console.log(delay);
         const decayFactor = 0.99;
 
         function animateStep(timestamp) {
@@ -218,7 +193,6 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
             if (sortingRef.current) {
                 requestAnimationFrame(animateStep);  
             }
-
         }
 
         if (sortingRef.current) {

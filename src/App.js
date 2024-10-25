@@ -10,8 +10,8 @@
 // The App component renders the Header and SortingVisualizer components, 
 // providing them with the necessary props to facilitate user interactions and display
 // the sorting animations. It handles the logic for generating random arrays, 
-// executing the selected sorting algorithm, and managing the sorting process, 
-// including starting, completing, and resetting the sorting.
+// executing the selected sorting algorithm, calculating the speed factor, and 
+// managing the sorting process, including starting, completing, and resetting the sorting.
 //
 // The application supports multiple sorting algorithms: Bubble, Insertion, Selection, 
 // Merge, and Quick sort, allowing users to visualize how each algorithm sorts an array.
@@ -134,6 +134,30 @@ function App() {
     setIsSorting(false);
   };
 
+  // Calculate the base speed for sorting animation based on the array size.
+  // The speed is determined through linear interpolation between a minimum 
+  // and maximum speed defined for an array size range (20 to 150).
+  // Returns the calculated base speed.
+  const getBaseSpeed = () => {
+    // Minimum baseSpeed for min array size
+    const minBaseSpeed = 4; 
+    // Maximum baseSpeed for max array size
+    const maxBaseSpeed = 15; 
+
+    // Linear interpolation
+    return minBaseSpeed + (maxBaseSpeed - minBaseSpeed) * ((array.length - minArraySize) / (maxArraySize - minArraySize));
+  };
+  
+  // Calculate the speed factor for the sorting animation based on the user-defined speed.
+  // This factor adjusts the base speed determined by the size of the array 
+  // and the selected speed setting (1 to 5). 
+  // Returns the computed speed factor for animation timing.
+  const getSpeedFactor = () => {
+      const baseSpeed = getBaseSpeed(array.length);
+      const speedFactor = baseSpeed / (5 * (6 - speed));
+      return speedFactor;
+  };
+
   return (
     <>
       <Header
@@ -155,7 +179,7 @@ function App() {
       />
       <SortingVisualizer 
         array={array}
-        speed={speed}
+        speedFactor={getSpeedFactor()}
         sortSteps={sortSteps}
         isSorting={isSorting}
         isSortingComplete={isSortingComplete}

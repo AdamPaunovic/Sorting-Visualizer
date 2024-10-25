@@ -12,6 +12,7 @@
 // Key Features:
 // - Manages the array state and visual updates during sorting.
 // - Handles animation for sorting steps using requestAnimationFrame for smooth transitions.
+// - Plays sound for each animation step determined by bar height
 // - Allows for dynamic adjustments of sorting speed based on user input.
 // - Displays the array through the ArrayDisplay component 
 //
@@ -30,8 +31,32 @@ import './SortingVisualizer.css';
 
 const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComplete, isSortingComplete }) => {
     const [barColors, setBarColors] = useState([]); 
-    const [currentArray, setCurrentArray] = useState(array);  // Maintain current array state
     const sortingRef = useRef(isSorting);
+    const audioContextRef = useRef(null);
+    const currentArrayRef = useRef(array);
+
+    // Function to generate sound for each sorting step
+    const playSound = (frequency) => {
+        if (!audioContextRef.current) {
+            audioContextRef.current = new (window.AudioContext || window.AudioContext)();
+        }
+    
+        const oscillator = audioContextRef.current.createOscillator();
+        const gainNode = audioContextRef.current.createGain();
+    
+        oscillator.frequency.value = frequency;
+        oscillator.type = "triangle";
+    
+        // Apply slight fade-in and fade-out
+        gainNode.gain.setValueAtTime(0, audioContextRef.current.currentTime);  // Start at 0 volume
+        gainNode.gain.linearRampToValueAtTime(0.1, audioContextRef.current.currentTime + 0.01);  // Fade in over 10ms
+        gainNode.gain.linearRampToValueAtTime(0, audioContextRef.current.currentTime + 0.1);  // Fade out over 100ms
+    
+        oscillator.connect(gainNode).connect(audioContextRef.current.destination);
+    
+        oscillator.start();
+        oscillator.stop(audioContextRef.current.currentTime + 0.1);  // Let the sound last slightly longer
+    };
 
     // Calculate the base speed for sorting animation based on the array size.
     // The speed is determined through linear interpolation between a minimum 
@@ -41,7 +66,7 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
         // Minimum baseSpeed for min array size (20)
         const minBaseSpeed = 4; 
         // Maximum baseSpeed for max array size (150)
-        const maxBaseSpeed = 25; 
+        const maxBaseSpeed = 15; 
     
         // Linear interpolation
         return minBaseSpeed + (maxBaseSpeed - minBaseSpeed) * ((array.length - 20) / (150 - 20));
@@ -75,7 +100,7 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
         let i = 0;
         let lastFrameTime = performance.now();
         let delay = 1000 / (speedFactor * 10)
-        const decayFactor = 0.995;
+        const decayFactor = 0.998;
 
         function animateStep(timestamp) {
             // If all steps are done or sorting stopped, complete sorting
@@ -95,12 +120,16 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
             }
 
             lastFrameTime = timestamp; // Update the last frame time
-
             delay *= decayFactor;  // Decrease delay gradually
 
             for (let j = 0; j < speedFactor && i < steps.length; j++) {
                 const [barOneIdx, barTwoIdx, action, colors] = steps[i];
+
+                const barOneHeight = currentArrayRef.current[barOneIdx]; // Height to map to frequency
+                const frequency = 100 + barOneHeight * 5; 
                 
+                playSound(frequency);
+
                 // Update bar colors based on action
                 setBarColors((prevBarColors) => {
                     const newBarColors = [...prevBarColors];
@@ -168,32 +197,19 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
 
                 // Handle swap actions
                 if (action === "swap") {
-                    setCurrentArray((prevArray) => {
-                        const newArray = [...prevArray];
-                        // Swap the elements in the array
-                        const temp = newArray[barOneIdx];
-                        newArray[barOneIdx] = newArray[barTwoIdx];
-                        newArray[barTwoIdx] = temp;
-                        return newArray;  // Return new array state for re-render
+                    currentArrayRef.current = currentArrayRef.current.map((value, idx) => {
+                        if (idx === barOneIdx) return currentArrayRef.current[barTwoIdx];
+                        if (idx === barTwoIdx) return currentArrayRef.current[barOneIdx];
+                        return value;
                     });
                 } 
-                // Handle shift actions
-                else if (action === "shift") {
-                    setCurrentArray((prevArray) => {
-                        const newArray = [...prevArray];
-                        // Shift barOneIdx bar to barTwoIdx position
-                        newArray[barTwoIdx] = newArray[barOneIdx];
-                        return newArray;  // Return the new array state for re-render
-                    });
-                }
                 // Handle insert actions
                 else if (action === "insert") {
-                    setCurrentArray((prevArray) => {
-                        const newArray = [...prevArray];
-                        // Insert barOneIdx bar into barTwoIdx position
-                        newArray.splice(barTwoIdx, 0, newArray.splice(barOneIdx, 1)[0]);
-                        return newArray;  // Return the new array state for re-render
-                    });
+                    const newArray = [...currentArrayRef.current];
+                    // Move the element from barOneIdx to barTwoIdx
+                    newArray.splice(barTwoIdx, 0, newArray.splice(barOneIdx, 1)[0]);
+                    // Update the currentArrayRef with the new array
+                    currentArrayRef.current = newArray;
                 }
 
                 i++;  // Move to the next step
@@ -225,7 +241,7 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
     // complete: if sorting is complete, all bars are colored green; 
     // otherwise, they are colored lawngreen to indicate they are unsorted.
     useEffect(() => {
-        setCurrentArray(array);
+        currentArrayRef.current = array
         // Initialize the bar colors based on whether sorting is complete
         if (isSortingComplete) {
             setBarColors(Array(array.length).fill('green'));
@@ -240,7 +256,7 @@ const SortingVisualizer = ({ array, speed, sortSteps, isSorting, onSortingComple
                 <InfoSection />
             </div>
             <div className="array-container">
-                <ArrayDisplay array={currentArray} barColors={barColors} />
+                <ArrayDisplay array={currentArrayRef.current} barColors={barColors} />
             </div>
             <div className="info-section-2">
                 <InfoSection />

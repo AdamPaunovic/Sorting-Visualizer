@@ -1,5 +1,5 @@
 ## Live Demo
-Check out the live version [here](https://adampaunovic.github.io/<sorting-visualizer/).
+Check out the live version [here](https://adampaunovic.github.io/sorting-visualizer/).
 
 # Getting Started with Create React App
 

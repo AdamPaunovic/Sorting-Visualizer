@@ -57,21 +57,18 @@ const Header = ({
                     Generate New Array
                 </button>
                 <button 
-                    id="sortBtn" 
-                    className="controlBtn"
-                    disabled={isDisabled} 
-                    onClick={onSortArray}>
-                    Sort!
-                </button>
-            </div>
-
-            <div className="btn-container">
-                <button 
                     id="resetBtn" 
                     className="controlBtn" 
                     disabled={!isSortingComplete} 
                     onClick={onResetArray}>
                     Reset
+                </button>
+                <button 
+                    id="sortBtn" 
+                    className="controlBtn"
+                    disabled={isDisabled} 
+                    onClick={onSortArray}>
+                    Sort!
                 </button>
                 <button 
                     id="skipBtn" 
@@ -81,7 +78,6 @@ const Header = ({
                     Skip
                 </button>
             </div>
-            
 
             {/* Array Controls */}
             <div className="array-inputs">

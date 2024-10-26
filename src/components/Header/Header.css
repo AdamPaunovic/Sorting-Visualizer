@@ -38,21 +38,26 @@
 
 .btn-container {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 10px;
+    gap: 10px;
+    max-width: 300px;
+    box-sizing: border-box;
 }
 
 #generateArrBtn {
     padding: 10px 15px;
+    width: 185px;
     font-size: 1rem;
     background-color: transparent;
     border: 5px solid var(--generate-btn-border);
     color: var(--main-text);
     cursor: pointer;
-    margin-bottom: 15px;
 }
 
 #sortBtn {
     padding: 10px 15px;
+    width: 185px;
     font-size: 1rem;
     background-color: transparent;
     border: 5px solid var(--sort-btn-border);
@@ -62,16 +67,17 @@
 
 #resetBtn {
     padding: 10px 15px;
+    width: 82px;
     font-size: 1rem;
     background-color: transparent;
     border: 5px solid var(--reset-btn-border);
     color: var(--main-text);
     cursor: pointer;
-    margin-bottom: 15px;
 }
 
 #skipBtn {
     padding: 10px 15px;
+    width: 82px;
     font-size: 1rem;
     background-color: transparent;
     border: 5px solid var(--skip-btn-border);
@@ -204,3 +210,27 @@ h1 {
     pointer-events: none
 }
 
+@media (max-width: 898px) {
+    .header {
+        flex-direction: column; 
+        height: auto; 
+    }
+
+    .btn-container {
+        align-items: center; 
+    }
+
+    .slider {
+        max-width: 90%; 
+    }
+
+    .algorithm-section {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem; /* Smaller font size on very small screens */
+    }
+}

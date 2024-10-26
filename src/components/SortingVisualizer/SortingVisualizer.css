@@ -25,3 +25,17 @@
     padding: 20% 10%;
     background-color: transparent;
 }
+
+@media (max-width: 898px) {
+    .info-section-1 {
+        padding: 5%;
+    }
+
+    .info-section-2 {
+        padding: 5%;
+    }
+}
+
+@media (max-width: 480px) {
+  
+}

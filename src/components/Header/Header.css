@@ -20,6 +20,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 .header {
@@ -29,9 +30,8 @@
     background-color: var(--main-background);
     color: var(--main-text);
     position: relative;
-    padding: 20px;
+    padding: 80px 0px;
     width: 100%;
-    max-width: 1400px;
     height: 15vh;
     top: 0;
 }
@@ -42,7 +42,6 @@
     padding: 10px;
     gap: 10px;
     max-width: 300px;
-    box-sizing: border-box;
 }
 
 #generateArrBtn {
@@ -103,7 +102,7 @@
     -webkit-appearance: none;
     appearance: none;
     width: 10rem;
-    height: 0.5rem;
+    height: 1rem;
     background: #000;
     outline: none;
     border: 5px solid var(--slider-color);
@@ -143,7 +142,6 @@ h1 {
     padding: 10px;
     gap: 10px;
     max-width: 450px;
-    box-sizing: border-box;
 }
 
 
@@ -155,7 +153,6 @@ h1 {
     border-radius: 15px;
     width: 100px;
     padding: 10px;
-    box-sizing: border-box;
     cursor: pointer;
     display: inline-block;
     font-size: 1rem;
@@ -214,6 +211,7 @@ h1 {
     .header {
         flex-direction: column; 
         height: auto; 
+        padding: 0px 10px;
     }
 
     .btn-container {

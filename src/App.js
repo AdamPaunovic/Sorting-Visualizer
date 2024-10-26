@@ -134,29 +134,30 @@ function App() {
     setIsSorting(false);
   };
 
-  // Calculate the base speed for sorting animation based on the array size.
-  // The speed is determined through linear interpolation between a minimum 
-  // and maximum speed defined for an array size range (20 to 150).
-  // Returns the calculated base speed.
-  const getBaseSpeed = () => {
-    // Minimum baseSpeed for min array size
-    const minBaseSpeed = 4; 
-    // Maximum baseSpeed for max array size
-    const maxBaseSpeed = 15; 
-
-    // Linear interpolation
-    return minBaseSpeed + (maxBaseSpeed - minBaseSpeed) * ((array.length - minArraySize) / (maxArraySize - minArraySize));
-  };
-  
-  // Calculate the speed factor for the sorting animation based on the user-defined speed.
-  // This factor adjusts the base speed determined by the size of the array 
-  // and the selected speed setting (1 to 5). 
-  // Returns the computed speed factor for animation timing.
+  // Dynamically determine speed factor based on array size and speed.
+  // Larger arrays and higher speed settings yield a larger speedFactor, clamped to [0.1, 0.9].
   const getSpeedFactor = () => {
-      const baseSpeed = getBaseSpeed(array.length);
-      const speedFactor = baseSpeed / (5 * (6 - speed));
-      return speedFactor;
+    // Define the minimum and maximum values for speed factor
+    const minSpeedFactor = 0.1;
+    const maxSpeedFactor = 1;
+
+    // Set range for array sizes and speed settings for scaling
+    const minArraySize = 20;
+    const maxArraySize = 150;
+    const minSpeedSetting = 1;
+    const maxSpeedSetting = 5;
+
+    // Normalize array size and speed values to a 0-1 range
+    const arrayFactor = (arraySize - minArraySize) / (maxArraySize - minArraySize);
+    const speedFactor = (speed - minSpeedSetting) / (maxSpeedSetting - minSpeedSetting);
+
+    // Calculate the combined speed factor using both array size and speed
+    let combinedFactor = (arrayFactor + speedFactor) / 2;
+
+    // Scale and clamp combinedFactor to fit within [minSpeedFactor, maxSpeedFactor]
+    return minSpeedFactor + combinedFactor * (maxSpeedFactor - minSpeedFactor);
   };
+
 
   return (
     <>

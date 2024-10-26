@@ -74,9 +74,9 @@ const SortingVisualizer = ({ array, speedFactor, sortSteps, isSorting, onSorting
     const animateSorting = useCallback((steps) => {
         let i = 0;
         let lastFrameTime = performance.now();
-        let delay = 1000 / Math.min((speedFactor * 10), 9);
-        // console.log(delay);
-        const decayFactor = 0.99;
+        let delay = 300 - (speedFactor - 0.1) * (300 - 1) / (1 - 0.1);
+        console.log(delay);
+        const decayFactor = 1;
 
         function animateStep(timestamp) {
             // If all steps are done or sorting stopped, complete sorting

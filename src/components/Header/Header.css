@@ -123,8 +123,8 @@
   
   /* targets firefox */
   .slider::-moz-range-thumb {
-    width: 10px;
-    height: 30px;
+    width: 6px;
+    height: 25px;
     background: #000;
     cursor: pointer;
     border: 3px solid var(--slider-color);
@@ -197,7 +197,7 @@ h1 {
 }
 
 /* targets firefox */
-.slider::-moz-range-thumb {
+.slider:disabled::-moz-range-thumb {
     border-color: var(--disabled-slider-color);
     pointer-events: none;
 }

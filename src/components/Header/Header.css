@@ -207,7 +207,7 @@ h1 {
     pointer-events: none
 }
 
-@media (max-width: 898px) {
+@media (max-width: 1162px) {
     .header {
         flex-direction: column; 
         height: auto; 
